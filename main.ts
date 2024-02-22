@@ -19,14 +19,24 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.camerabutton, function (sprite, 
                 what()
             })
         } else {
-            incameras = false
             spawnbuttons(0)
             scene.setBackgroundImage(assets.image`static`)
             timer.after(500, function () {
+                incameras = false
                 spawnbuttons(1)
                 scene.setBackgroundImage(assets.image`office`)
             })
         }
+    }
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.leftlightbutton, function (sprite, otherSprite) {
+	
+})
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (Mouse.mouseSprite().overlapsWith(leftlightbutton1) && !(leftlighton)) {
+        leftlighton = true
+    } else if (Mouse.mouseSprite().overlapsWith(leftlightbutton1) && leftlighton) {
+        leftlighton = false
     }
 })
 function spawnbuttons (_set: number) {
@@ -75,9 +85,10 @@ function gameturn (num: number, num2: number, num3: number, num4: number, num5: 
 }
 let camerabutton2: Sprite = null
 let leftdoorbutton2: Sprite = null
-let leftlightbutton1: Sprite = null
 let rightdoorbutton2: Sprite = null
 let rightlightbutton2: Sprite = null
+let leftlighton = false
+let leftlightbutton1: Sprite = null
 let incameras = false
 scene.setBackgroundImage(assets.image`office`)
 let graceperiod = true
@@ -102,6 +113,15 @@ Keybinds.CustomKey.RIGHT,
 Keybinds.CustomKey.LEFT_CLICK,
 Keybinds.CustomKey.SPACE
 )
+forever(function () {
+    if (!(incameras)) {
+        if (leftlighton) {
+            scene.setBackgroundImage(assets.image`officeleftlighton`)
+        } else {
+            scene.setBackgroundImage(assets.image`office`)
+        }
+    }
+})
 game.onUpdateInterval(randint(10000, 20000), function () {
     if (!(graceperiod)) {
         console.log("gameticks begin")
