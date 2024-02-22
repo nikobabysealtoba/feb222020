@@ -1,0 +1,36 @@
+{
+    "name": "cinco nights",
+    "description": "",
+    "dependencies": {
+        "device": "*",
+        "modded mouse": "pub:53191-82962-30336-60887",
+        "arcade-character-animations": "github:microsoft/arcade-character-animations#v0.0.2",
+        "arcade-text": "github:microsoft/arcade-text#v1.3.0",
+        "Timers": "github:microsoft/arcade-timers#v1.1.0",
+        "Aiming Test (fixed?)": "github:nikobabysealtoba/rotation-modded#096eb96bf70e8bf90f932b9a24af24b9ec7c0cc8",
+        "Custom Keybind Extension": "github:Brohann3214/custom-keybind-extension#ce1cb5acda5cd438592e38da4aaab10b73b46c64",
+        "arcade-story": "github:microsoft/arcade-storytelling#v1.0.3",
+        "darts": "*"
+    },
+    "files": [
+        "main.blocks",
+        "main.ts",
+        "README.md",
+        "assets.json",
+        "tilemap.g.jres",
+        "tilemap.g.ts",
+        "images.g.jres",
+        "images.g.ts"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "targetVersions": {
+        "target": "1.12.47",
+        "targetId": "arcade"
+    },
+    "supportedTargets": [
+        "arcade"
+    ],
+    "preferredEditor": "blocksprj"
+}
