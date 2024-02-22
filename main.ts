@@ -5,27 +5,42 @@ namespace SpriteKind {
     export const leftdoorbutton = SpriteKind.create()
     export const camerabutton = SpriteKind.create()
 }
+function what () {
+    scene.setBackgroundImage(assets.image`stagecam all anims`)
+    spawnbuttons(2)
+}
 sprites.onOverlap(SpriteKind.Player, SpriteKind.camerabutton, function (sprite, otherSprite) {
     if (controller.A.isPressed()) {
-        spawnbuttons(0)
-        scene.setBackgroundImage(assets.image`static`)
-        timer.after(500, function () {
-            cameras()
-        })
+        if (!(incameras)) {
+            incameras = true
+            spawnbuttons(0)
+            scene.setBackgroundImage(assets.image`static`)
+            timer.after(500, function () {
+                what()
+            })
+        } else {
+            incameras = false
+            spawnbuttons(0)
+            scene.setBackgroundImage(assets.image`static`)
+            timer.after(500, function () {
+                spawnbuttons(1)
+                scene.setBackgroundImage(assets.image`office`)
+            })
+        }
     }
 })
 function spawnbuttons (_set: number) {
     if (_set == 1) {
-        rightlightbutton = sprites.create(assets.image`lightright`, SpriteKind.rightlightbutton)
-        rightlightbutton.setPosition(155, 82)
-        rightdoorbutton = sprites.create(assets.image`doorright`, SpriteKind.rightdoorbutton)
-        rightdoorbutton.setPosition(155, 75)
+        rightlightbutton2 = sprites.create(assets.image`lightright`, SpriteKind.rightlightbutton)
+        rightlightbutton2.setPosition(155, 82)
+        rightdoorbutton2 = sprites.create(assets.image`doorright`, SpriteKind.rightdoorbutton)
+        rightdoorbutton2.setPosition(155, 75)
         leftlightbutton1 = sprites.create(assets.image`lightleft`, SpriteKind.leftlightbutton)
         leftlightbutton1.setPosition(5, 82)
         leftdoorbutton2 = sprites.create(assets.image`doorleft`, SpriteKind.leftdoorbutton)
         leftdoorbutton2.setPosition(5, 75)
-        camerabutton = sprites.create(assets.image`doorleft0`, SpriteKind.camerabutton)
-        camerabutton.setPosition(80, 120)
+        camerabutton2 = sprites.create(assets.image`doorleft0`, SpriteKind.camerabutton)
+        camerabutton2.setPosition(80, 120)
         Mouse.DrawMouse(
         true,
         assets.image`mouse`,
@@ -44,21 +59,29 @@ function spawnbuttons (_set: number) {
         0,
         0
         )
+    } else if (_set == 2) {
+        camerabutton2 = sprites.create(assets.image`doorleft0`, SpriteKind.camerabutton)
+        camerabutton2.setPosition(80, 120)
+        Mouse.DrawMouse(
+        true,
+        assets.image`mouse`,
+        0,
+        0
+        )
     }
-}
-function cameras () {
-    scene.setBackgroundImage(assets.image`stagecam all anims`)
 }
 function gameturn (num: number, num2: number, num3: number, num4: number, num5: number) {
 	
 }
-let camerabutton: Sprite = null
+let camerabutton2: Sprite = null
 let leftdoorbutton2: Sprite = null
 let leftlightbutton1: Sprite = null
-let rightdoorbutton: Sprite = null
-let rightlightbutton: Sprite = null
+let rightdoorbutton2: Sprite = null
+let rightlightbutton2: Sprite = null
+let incameras = false
 scene.setBackgroundImage(assets.image`office`)
 let graceperiod = true
+incameras = false
 spawnbuttons(1)
 Mouse.Setsensibility(1.3333)
 Mouse.DrawMouse(
