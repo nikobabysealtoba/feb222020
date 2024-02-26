@@ -38,6 +38,21 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     } else if (Mouse.mouseSprite().overlapsWith(leftlightbutton1) && leftlighton) {
         leftlighton = false
     }
+    if (Mouse.mouseSprite().overlapsWith(rightlightbutton2) && !(rightlighton)) {
+        rightlighton = true
+    } else if (Mouse.mouseSprite().overlapsWith(rightlightbutton2) && rightlighton) {
+        rightlighton = false
+    }
+    if (Mouse.mouseSprite().overlapsWith(rightdoorbutton2) && !(rightdooron)) {
+        rightdooron = true
+    } else if (Mouse.mouseSprite().overlapsWith(rightdoorbutton2) && rightdooron) {
+        rightdooron = false
+    }
+    if (Mouse.mouseSprite().overlapsWith(leftdoorbutton2) && !(leftdooron)) {
+        leftdooron = true
+    } else if (Mouse.mouseSprite().overlapsWith(leftdoorbutton2) && leftdooron) {
+        leftdooron = false
+    }
 })
 function spawnbuttons (_set: number) {
     if (_set == 1) {
@@ -84,12 +99,21 @@ function gameturn (num: number, num2: number, num3: number, num4: number, num5: 
 	
 }
 let camerabutton2: Sprite = null
+let leftdooron = false
 let leftdoorbutton2: Sprite = null
+let rightdooron = false
 let rightdoorbutton2: Sprite = null
+let rightlighton = false
 let rightlightbutton2: Sprite = null
 let leftlighton = false
 let leftlightbutton1: Sprite = null
 let incameras = false
+let officeimages = [
+assets.image`office`,
+assets.image`officeleftlighton`,
+assets.image`officerightlight`,
+assets.image`officeonlylightson`
+]
 scene.setBackgroundImage(assets.image`office`)
 let graceperiod = true
 incameras = false
@@ -114,11 +138,38 @@ Keybinds.CustomKey.LEFT_CLICK,
 Keybinds.CustomKey.SPACE
 )
 forever(function () {
+    if (rightdooron && leftdooron) {
+        officeimages[0] = assets.image`officebothdoors`
+        officeimages[1] = assets.image`officebothdoorsleftlight`
+        officeimages[2] = assets.image`officebothdoorsrightlight`
+        officeimages[3] = assets.image`officebothdoorsbothlights`
+    } else if (rightdooron) {
+        officeimages[0] = assets.image`officerightdoor`
+        officeimages[1] = assets.image`officerightdoorleftlight`
+        officeimages[2] = assets.image`officerightdoorrightlight`
+        officeimages[3] = assets.image`officerightdooralllights`
+    } else if (leftdooron) {
+        officeimages[0] = assets.image`officeleftdoor`
+        officeimages[1] = assets.image`officeleftdoorleftlight`
+        officeimages[2] = assets.image`officeleftdoorrightlight`
+        officeimages[3] = assets.image`officeleftdoor1`
+    } else {
+        officeimages[0] = assets.image`office`
+        officeimages[1] = assets.image`officeleftlighton`
+        officeimages[2] = assets.image`officerightlight`
+        officeimages[3] = assets.image`officeonlylightson`
+    }
+})
+forever(function () {
     if (!(incameras)) {
-        if (leftlighton) {
-            scene.setBackgroundImage(assets.image`officeleftlighton`)
+        if (leftlighton && !(rightlighton)) {
+            scene.setBackgroundImage(officeimages[1])
+        } else if (rightlighton && !(leftlighton)) {
+            scene.setBackgroundImage(officeimages[2])
+        } else if (rightlighton && leftlighton) {
+            scene.setBackgroundImage(officeimages[3])
         } else {
-            scene.setBackgroundImage(assets.image`office`)
+            scene.setBackgroundImage(officeimages[0])
         }
     }
 })
