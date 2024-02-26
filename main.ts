@@ -5,6 +5,7 @@ namespace SpriteKind {
     export const leftdoorbutton = SpriteKind.create()
     export const camerabutton = SpriteKind.create()
     export const switchcamerabutton = SpriteKind.create()
+    export const power = SpriteKind.create()
 }
 function what () {
     scene.setBackgroundImage(stagesprites)
@@ -16,13 +17,13 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.camerabutton, function (sprite, 
             incameras = true
             spawnbuttons(0)
             scene.setBackgroundImage(assets.image`static`)
-            timer.after(500, function () {
+            timer.after(250, function () {
                 what()
             })
         } else {
             spawnbuttons(0)
             scene.setBackgroundImage(assets.image`static`)
-            timer.after(500, function () {
+            timer.after(250, function () {
                 incameras = false
                 spawnbuttons(1)
                 scene.setBackgroundImage(assets.image`office`)
@@ -136,6 +137,10 @@ assets.image`officeleftlighton`,
 assets.image`officerightlight`,
 assets.image`officeonlylightson`
 ]
+let power2 = statusbars.create(15, 6, StatusBarKind.Health)
+power2.setBarBorder(1, 12)
+power2.max = 100
+power2.setPosition(10, 110)
 scene.setBackgroundImage(assets.image`office`)
 stagesprites = assets.image`stage`
 let tablessprites = assets.image`dining`
@@ -205,28 +210,91 @@ forever(function () {
 forever(function () {
     if (incameras && camerabuttons_on) {
         if (Mouse.mouseSprite().overlapsWith(stagecamera) && controller.A.isPressed()) {
-            scene.setBackgroundImage(stagesprites)
+            scene.setBackgroundImage(assets.image`static`)
+            spawnbuttons(0)
+            timer.after(250, function () {
+                scene.setBackgroundImage(stagesprites)
+                spawnbuttons(2)
+            })
         }
         if (Mouse.mouseSprite().overlapsWith(tablescamera) && controller.A.isPressed()) {
-            scene.setBackgroundImage(tablessprites)
+            scene.setBackgroundImage(assets.image`static`)
+            spawnbuttons(0)
+            timer.after(250, function () {
+                scene.setBackgroundImage(tablessprites)
+                spawnbuttons(2)
+            })
         }
         if (Mouse.mouseSprite().overlapsWith(righthallwaycamera) && controller.A.isPressed()) {
-            scene.setBackgroundImage(setrighthallsprites)
+            scene.setBackgroundImage(assets.image`static`)
+            spawnbuttons(0)
+            timer.after(250, function () {
+                scene.setBackgroundImage(setrighthallsprites)
+                spawnbuttons(2)
+            })
         }
         if (Mouse.mouseSprite().overlapsWith(lefthallwaycamera) && controller.A.isPressed()) {
-            scene.setBackgroundImage(lefthallsprites)
+            scene.setBackgroundImage(assets.image`static`)
+            spawnbuttons(0)
+            timer.after(250, function () {
+                scene.setBackgroundImage(lefthallsprites)
+                spawnbuttons(2)
+            })
         }
         if (Mouse.mouseSprite().overlapsWith(leftdoorcamera) && controller.A.isPressed()) {
-            scene.setBackgroundImage(leftcornersprites)
+            scene.setBackgroundImage(assets.image`static`)
+            spawnbuttons(0)
+            timer.after(250, function () {
+                scene.setBackgroundImage(leftcornersprites)
+                spawnbuttons(2)
+            })
         }
         if (Mouse.mouseSprite().overlapsWith(rightdoorcamera) && controller.A.isPressed()) {
-            scene.setBackgroundImage(rightcornersprites)
+            scene.setBackgroundImage(assets.image`static`)
+            spawnbuttons(0)
+            timer.after(250, function () {
+                scene.setBackgroundImage(rightcornersprites)
+                spawnbuttons(2)
+            })
         }
+    }
+})
+forever(function () {
+    power2.setLabel(convertToText(power2.value))
+})
+forever(function () {
+    if (power2.value <= 0) {
+        spawnbuttons(0)
+        scene.setBackgroundImage(assets.image`office1`)
+        timer.after(5000, function () {
+            game.setGameOverMessage(false, "RAN OUT OF POWER")
+            game.gameOver(false)
+        })
     }
 })
 game.onUpdateInterval(randint(10000, 20000), function () {
     if (!(graceperiod)) {
         console.log("gameticks begin")
         gameturn(randint(1, 3), randint(1, 3), randint(1, 3), randint(1, 3), randint(1, 3))
+    }
+})
+game.onUpdateInterval(6000, function () {
+    if (!(graceperiod)) {
+        power2.value += -0.5
+        if (leftlighton) {
+            power2.value += -0.5
+        }
+        if (leftdooron) {
+            power2.value += -1
+        }
+        if (rightdooron) {
+            power2.value += -1
+        }
+        if (rightlighton) {
+            power2.value += -0.5
+        }
+        if (incameras) {
+            power2.value += -0.5
+        }
     }
 })

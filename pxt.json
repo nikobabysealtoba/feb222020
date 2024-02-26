@@ -10,7 +10,8 @@
         "Aiming Test (fixed?)": "github:nikobabysealtoba/rotation-modded#096eb96bf70e8bf90f932b9a24af24b9ec7c0cc8",
         "Custom Keybind Extension": "github:Brohann3214/custom-keybind-extension#ce1cb5acda5cd438592e38da4aaab10b73b46c64",
         "arcade-story": "github:microsoft/arcade-storytelling#v1.0.3",
-        "darts": "*"
+        "darts": "*",
+        "pxt-status-bar": "github:jwunderl/pxt-status-bar#v0.4.2"
     },
     "files": [
         "main.blocks",
