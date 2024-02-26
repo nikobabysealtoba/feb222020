@@ -114,13 +114,13 @@ function gameturn (num: number, num2: number, num3: number) {
     bear = 0
     bonny = 0
     chicken = 0
-    if (num == 3) {
+    if (num == 1) {
         bear += 1
     }
-    if (num2 == 3) {
+    if (num2 == 1) {
         bonny += 1
     }
-    if (num3 == 3) {
+    if (num3 == 1) {
         chicken += 1
     }
 }
@@ -143,6 +143,11 @@ let rightlightbutton2: Sprite = null
 let leftlighton = false
 let leftlightbutton1: Sprite = null
 let camerabuttons_on = false
+let fifthstage = false
+let fourthstage = false
+let thirdstage = false
+let secondstage = false
+let firststage = false
 let incameras = false
 let stagesprites: Image = null
 let officeimages = [
@@ -174,6 +179,28 @@ assets.image`mouse`,
 )
 timer.after(15000, function () {
     graceperiod = false
+    firststage = true
+    timer.after(120000, function () {
+        firststage = false
+        secondstage = false
+        timer.after(120000, function () {
+            secondstage = false
+            thirdstage = true
+            timer.after(120000, function () {
+                thirdstage = false
+                fourthstage = true
+            })
+            timer.after(120000, function () {
+                fourthstage = false
+                fifthstage = true
+            })
+            timer.after(180000, function () {
+                fifthstage = false
+                game.setGameOverMessage(true, "6AM")
+                game.gameOver(true)
+            })
+        })
+    })
 })
 camerabuttons_on = false
 Keybinds.setSimulatorKeymap(
@@ -292,7 +319,21 @@ forever(function () {
 game.onUpdateInterval(randint(10000, 20000), function () {
     if (!(graceperiod)) {
         console.log("gameticks begin")
-        gameturn(randint(1, 3), randint(1, 3), randint(1, 3))
+        if (firststage) {
+            gameturn(randint(1, 10), randint(1, 10), randint(1, 10))
+        }
+        if (secondstage) {
+            gameturn(randint(1, 6), randint(1, 6), randint(1, 6))
+        }
+        if (thirdstage) {
+            gameturn(randint(1, 4), randint(1, 4), randint(1, 4))
+        }
+        if (fourthstage) {
+            gameturn(randint(1, 3), randint(1, 3), randint(1, 3))
+        }
+        if (fifthstage) {
+            gameturn(randint(1, 2), randint(1, 2), randint(1, 2))
+        }
     }
 })
 game.onUpdateInterval(6000, function () {
