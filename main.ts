@@ -54,6 +54,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 function spawnbuttons (_set: number) {
     if (_set == 1) {
+        camerabuttons_on = false
         rightlightbutton2 = sprites.create(assets.image`lightright`, SpriteKind.rightlightbutton)
         rightlightbutton2.setPosition(155, 82)
         rightdoorbutton2 = sprites.create(assets.image`doorright`, SpriteKind.rightdoorbutton)
@@ -71,6 +72,7 @@ function spawnbuttons (_set: number) {
         0
         )
     } else if (_set == 0) {
+        camerabuttons_on = false
         sprites.destroyAllSpritesOfKind(SpriteKind.rightlightbutton)
         sprites.destroyAllSpritesOfKind(SpriteKind.rightdoorbutton)
         sprites.destroyAllSpritesOfKind(SpriteKind.leftlightbutton)
@@ -84,6 +86,7 @@ function spawnbuttons (_set: number) {
         0
         )
     } else if (_set == 2) {
+        camerabuttons_on = true
         stagecamera = sprites.create(assets.image`stagebutton`, SpriteKind.switchcamerabutton)
         stagecamera.setPosition(130, 85)
         tablescamera = sprites.create(assets.image`tablesbutton`, SpriteKind.switchcamerabutton)
@@ -124,6 +127,7 @@ let rightlighton = false
 let rightlightbutton2: Sprite = null
 let leftlighton = false
 let leftlightbutton1: Sprite = null
+let camerabuttons_on = false
 let incameras = false
 let stagesprites: Image = null
 let officeimages = [
@@ -152,6 +156,7 @@ assets.image`mouse`,
 timer.after(15000, function () {
     graceperiod = false
 })
+camerabuttons_on = false
 Keybinds.setSimulatorKeymap(
 Keybinds.PlayerNumber.ONE,
 Keybinds.CustomKey.UP,
@@ -198,7 +203,7 @@ forever(function () {
     }
 })
 forever(function () {
-    if (incameras) {
+    if (incameras && camerabuttons_on) {
         if (Mouse.mouseSprite().overlapsWith(stagecamera) && controller.A.isPressed()) {
             scene.setBackgroundImage(stagesprites)
         }
