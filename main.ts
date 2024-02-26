@@ -110,9 +110,23 @@ function spawnbuttons (_set: number) {
         )
     }
 }
-function gameturn (num: number, num2: number, num3: number, num4: number, num5: number) {
-	
+function gameturn (num: number, num2: number, num3: number) {
+    bear = 0
+    bonny = 0
+    chicken = 0
+    if (num == 3) {
+        bear += 1
+    }
+    if (num2 == 3) {
+        bonny += 1
+    }
+    if (num3 == 3) {
+        chicken += 1
+    }
 }
+let chicken = 0
+let bonny = 0
+let bear = 0
 let rightdoorcamera: Sprite = null
 let leftdoorcamera: Sprite = null
 let righthallwaycamera: Sprite = null
@@ -267,15 +281,18 @@ forever(function () {
         spawnbuttons(0)
         scene.setBackgroundImage(assets.image`office1`)
         timer.after(5000, function () {
-            game.setGameOverMessage(false, "RAN OUT OF POWER")
-            game.gameOver(false)
+            scene.setBackgroundImage(assets.image`leftcorner`)
+            timer.after(3000, function () {
+                game.setGameOverMessage(false, "RAN OUT OF POWER")
+                game.gameOver(false)
+            })
         })
     }
 })
 game.onUpdateInterval(randint(10000, 20000), function () {
     if (!(graceperiod)) {
         console.log("gameticks begin")
-        gameturn(randint(1, 3), randint(1, 3), randint(1, 3), randint(1, 3), randint(1, 3))
+        gameturn(randint(1, 3), randint(1, 3), randint(1, 3))
     }
 })
 game.onUpdateInterval(6000, function () {
