@@ -4,9 +4,10 @@ namespace SpriteKind {
     export const leftlightbutton = SpriteKind.create()
     export const leftdoorbutton = SpriteKind.create()
     export const camerabutton = SpriteKind.create()
+    export const switchcamerabutton = SpriteKind.create()
 }
 function what () {
-    scene.setBackgroundImage(assets.image`stagecam all anims`)
+    scene.setBackgroundImage(stagesprites)
     spawnbuttons(2)
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.camerabutton, function (sprite, otherSprite) {
@@ -28,9 +29,6 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.camerabutton, function (sprite, 
             })
         }
     }
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.leftlightbutton, function (sprite, otherSprite) {
-	
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (Mouse.mouseSprite().overlapsWith(leftlightbutton1) && !(leftlighton)) {
@@ -78,6 +76,7 @@ function spawnbuttons (_set: number) {
         sprites.destroyAllSpritesOfKind(SpriteKind.leftlightbutton)
         sprites.destroyAllSpritesOfKind(SpriteKind.leftdoorbutton)
         sprites.destroyAllSpritesOfKind(SpriteKind.camerabutton)
+        sprites.destroyAllSpritesOfKind(SpriteKind.switchcamerabutton)
         Mouse.DrawMouse(
         true,
         assets.image`mouse0`,
@@ -85,6 +84,18 @@ function spawnbuttons (_set: number) {
         0
         )
     } else if (_set == 2) {
+        stagecamera = sprites.create(assets.image`stagebutton`, SpriteKind.switchcamerabutton)
+        stagecamera.setPosition(130, 85)
+        tablescamera = sprites.create(assets.image`tablesbutton`, SpriteKind.switchcamerabutton)
+        tablescamera.setPosition(150, 85)
+        lefthallwaycamera = sprites.create(assets.image`lefthallwaybutton`, SpriteKind.switchcamerabutton)
+        lefthallwaycamera.setPosition(130, 100)
+        righthallwaycamera = sprites.create(assets.image`righthallwaybutton`, SpriteKind.switchcamerabutton)
+        righthallwaycamera.setPosition(150, 100)
+        leftdoorcamera = sprites.create(assets.image`left door button`, SpriteKind.switchcamerabutton)
+        leftdoorcamera.setPosition(130, 115)
+        rightdoorcamera = sprites.create(assets.image`rightdoorbutton`, SpriteKind.switchcamerabutton)
+        rightdoorcamera.setPosition(150, 115)
         camerabutton2 = sprites.create(assets.image`doorleft0`, SpriteKind.camerabutton)
         camerabutton2.setPosition(80, 120)
         Mouse.DrawMouse(
@@ -98,6 +109,12 @@ function spawnbuttons (_set: number) {
 function gameturn (num: number, num2: number, num3: number, num4: number, num5: number) {
 	
 }
+let rightdoorcamera: Sprite = null
+let leftdoorcamera: Sprite = null
+let righthallwaycamera: Sprite = null
+let lefthallwaycamera: Sprite = null
+let tablescamera: Sprite = null
+let stagecamera: Sprite = null
 let camerabutton2: Sprite = null
 let leftdooron = false
 let leftdoorbutton2: Sprite = null
@@ -108,6 +125,7 @@ let rightlightbutton2: Sprite = null
 let leftlighton = false
 let leftlightbutton1: Sprite = null
 let incameras = false
+let stagesprites: Image = null
 let officeimages = [
 assets.image`office`,
 assets.image`officeleftlighton`,
@@ -115,6 +133,12 @@ assets.image`officerightlight`,
 assets.image`officeonlylightson`
 ]
 scene.setBackgroundImage(assets.image`office`)
+stagesprites = assets.image`stage`
+let tablessprites = assets.image`dining`
+let lefthallsprites = assets.image`lefthall`
+let setrighthallsprites = assets.image`right hall`
+let leftcornersprites = assets.image`westdoor`
+let rightcornersprites = assets.image`rightcorner`
 let graceperiod = true
 incameras = false
 spawnbuttons(1)
@@ -170,6 +194,28 @@ forever(function () {
             scene.setBackgroundImage(officeimages[3])
         } else {
             scene.setBackgroundImage(officeimages[0])
+        }
+    }
+})
+forever(function () {
+    if (incameras) {
+        if (Mouse.mouseSprite().overlapsWith(stagecamera) && controller.A.isPressed()) {
+            scene.setBackgroundImage(stagesprites)
+        }
+        if (Mouse.mouseSprite().overlapsWith(tablescamera) && controller.A.isPressed()) {
+            scene.setBackgroundImage(tablessprites)
+        }
+        if (Mouse.mouseSprite().overlapsWith(righthallwaycamera) && controller.A.isPressed()) {
+            scene.setBackgroundImage(setrighthallsprites)
+        }
+        if (Mouse.mouseSprite().overlapsWith(lefthallwaycamera) && controller.A.isPressed()) {
+            scene.setBackgroundImage(lefthallsprites)
+        }
+        if (Mouse.mouseSprite().overlapsWith(leftdoorcamera) && controller.A.isPressed()) {
+            scene.setBackgroundImage(leftcornersprites)
+        }
+        if (Mouse.mouseSprite().overlapsWith(rightdoorcamera) && controller.A.isPressed()) {
+            scene.setBackgroundImage(rightcornersprites)
         }
     }
 })
