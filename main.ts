@@ -89,9 +89,9 @@ function spawnbuttons (_set: number) {
     } else if (_set == 2) {
         camerabuttons_on = true
         stagecamera = sprites.create(assets.image`stagebutton`, SpriteKind.switchcamerabutton)
-        stagecamera.setPosition(130, 85)
+        stagecamera.setPosition(130, 70)
         tablescamera = sprites.create(assets.image`tablesbutton`, SpriteKind.switchcamerabutton)
-        tablescamera.setPosition(150, 85)
+        tablescamera.setPosition(150, 70)
         lefthallwaycamera = sprites.create(assets.image`lefthallwaybutton`, SpriteKind.switchcamerabutton)
         lefthallwaycamera.setPosition(130, 100)
         righthallwaycamera = sprites.create(assets.image`righthallwaybutton`, SpriteKind.switchcamerabutton)
@@ -100,6 +100,10 @@ function spawnbuttons (_set: number) {
         leftdoorcamera.setPosition(130, 115)
         rightdoorcamera = sprites.create(assets.image`rightdoorbutton`, SpriteKind.switchcamerabutton)
         rightdoorcamera.setPosition(150, 115)
+        bathroomscam = sprites.create(assets.image`bathroomsbutton`, SpriteKind.switchcamerabutton)
+        bathroomscam.setPosition(150, 85)
+        backrooms = sprites.create(assets.image`partsbutton`, SpriteKind.switchcamerabutton)
+        backrooms.setPosition(130, 85)
         camerabutton2 = sprites.create(assets.image`doorleft0`, SpriteKind.camerabutton)
         camerabutton2.setPosition(80, 120)
         Mouse.DrawMouse(
@@ -127,6 +131,8 @@ function gameturn (num: number, num2: number, num3: number) {
 let chicken = 0
 let bonny = 0
 let bear = 0
+let backrooms: Sprite = null
+let bathroomscam: Sprite = null
 let rightdoorcamera: Sprite = null
 let leftdoorcamera: Sprite = null
 let righthallwaycamera: Sprite = null
@@ -156,6 +162,7 @@ assets.image`officeleftlighton`,
 assets.image`officerightlight`,
 assets.image`officeonlylightson`
 ]
+let powercutscene = false
 let power2 = statusbars.create(15, 6, StatusBarKind.Health)
 power2.setBarBorder(1, 12)
 power2.max = 100
@@ -167,6 +174,8 @@ let lefthallsprites = assets.image`lefthall`
 let setrighthallsprites = assets.image`right hall`
 let leftcornersprites = assets.image`westdoor`
 let rightcornersprites = assets.image`rightcorner`
+let backroomssprites = assets.image`backrooms`
+let bathroomsprites = assets.image`bathrooms`
 let graceperiod = true
 incameras = false
 spawnbuttons(1)
@@ -298,17 +307,34 @@ forever(function () {
                 spawnbuttons(2)
             })
         }
+        if (Mouse.mouseSprite().overlapsWith(bathroomscam) && controller.A.isPressed()) {
+            scene.setBackgroundImage(assets.image`static`)
+            spawnbuttons(0)
+            timer.after(250, function () {
+                scene.setBackgroundImage(bathroomsprites)
+                spawnbuttons(2)
+            })
+        }
+        if (Mouse.mouseSprite().overlapsWith(backrooms) && controller.A.isPressed()) {
+            scene.setBackgroundImage(assets.image`static`)
+            spawnbuttons(0)
+            timer.after(250, function () {
+                scene.setBackgroundImage(backroomssprites)
+                spawnbuttons(2)
+            })
+        }
     }
 })
 forever(function () {
     power2.setLabel(convertToText(power2.value))
 })
 forever(function () {
-    if (power2.value <= 0) {
+    if (power2.value <= 0 && !(powercutscene)) {
+        powercutscene = true
         spawnbuttons(0)
         scene.setBackgroundImage(assets.image`office1`)
         timer.after(5000, function () {
-            scene.setBackgroundImage(assets.image`leftcorner`)
+            scene.setBackgroundImage(assets.image`backrooms`)
             timer.after(3000, function () {
                 game.setGameOverMessage(false, "RAN OUT OF POWER")
                 game.gameOver(false)
@@ -336,7 +362,7 @@ game.onUpdateInterval(randint(10000, 20000), function () {
         }
     }
 })
-game.onUpdateInterval(6000, function () {
+game.onUpdateInterval(4500, function () {
     if (!(graceperiod)) {
         power2.value += -0.5
         if (leftlighton) {
