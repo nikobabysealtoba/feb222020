@@ -114,23 +114,145 @@ function spawnbuttons (_set: number) {
         )
     }
 }
-function gameturn (num: number, num2: number, num3: number) {
-    bear = 0
-    bonny = 0
-    chicken = 0
-    if (num == 1) {
+function gameturn (Chance1: number, Chance2: number, Chance3: number, retry: boolean) {
+    if (Chance1 == 1) {
+        bearmoving = true
         bear += 1
     }
-    if (num2 == 1) {
+    if (Chance2 == 1) {
+        bonnymoving = true
         bonny += 1
     }
-    if (num3 == 1) {
+    if (Chance3 == 1) {
+        chickenmoving = true
         chicken += 1
     }
+    if (retry) {
+        if (bear == 1) {
+            roomoccupied = randint(1, 3)
+            if (roomoccupied == 1) {
+                bearintables = true
+            }
+            if (roomoccupied == 2) {
+                bearinbath = true
+            }
+            if (roomoccupied == 3) {
+                bearinparts = true
+            }
+        }
+        if (bonny == 1) {
+            roomoccupied = randint(1, 3)
+            if (roomoccupied == 1) {
+                bonnyintables = true
+            }
+            if (roomoccupied == 2) {
+                bonnyinbath = true
+            }
+            if (roomoccupied == 3) {
+                bonnyinparts = true
+            }
+        }
+        if (chicken == 1) {
+            roomoccupied = randint(1, 3)
+            if (roomoccupied == 1) {
+                chickenintables = true
+            }
+            if (roomoccupied == 2) {
+                chickeninbath = true
+            }
+            if (roomoccupied == 3) {
+                chickeninparts = true
+            }
+        }
+    }
+    if (bearmoving) {
+        if (bear == 1) {
+            roomoccupied = randint(1, 3)
+            if (roomoccupied == 1) {
+                bearintables = true
+            }
+            if (roomoccupied == 2) {
+                bearinbath = true
+            }
+            if (roomoccupied == 3) {
+                bearinparts = true
+            }
+        }
+        if (bear == 2) {
+            bearintables = false
+            bearinbath = false
+            bearinparts = false
+            roomoccupied = randint(1, 2)
+            if (roomoccupied == 1) {
+                bearlefthall = true
+            }
+            if (roomoccupied == 2) {
+                bearrighthall = true
+            }
+        }
+    }
+    if (bonnymoving) {
+        if (bonny == 1) {
+            roomoccupied = randint(1, 3)
+            if (roomoccupied == 1) {
+                bonnyintables = true
+            }
+            if (roomoccupied == 2) {
+                bonnyinbath = true
+            }
+            if (roomoccupied == 3) {
+                bonnyinparts = true
+            }
+        }
+        if (bonny == 2) {
+            bonnyintables = false
+            bonnyinbath = false
+            bonnyinparts = false
+            bonnylefthall = true
+        }
+    }
+    if (chickenmoving) {
+        if (chicken == 1) {
+            roomoccupied = randint(1, 3)
+            if (roomoccupied == 1) {
+                chickenintables = true
+            }
+            if (roomoccupied == 2) {
+                chickeninbath = true
+            }
+            if (roomoccupied == 3) {
+                chickeninparts = true
+            }
+        }
+        if (chicken == 2) {
+            chickenintables = false
+            chickeninbath = false
+            chickeninparts = false
+            chickenrighthall = true
+        }
+    }
+    if (leftdooroccupied) {
+        if (bear == 3) {
+            leftdooroccupied = true
+            bearleftdoor = true
+            timer.after(30000, function () {
+                if (!(leftdooron)) {
+                    game.setGameOverMessage(false, "BEAR GOT YOU!")
+                    game.gameOver(false)
+                } else {
+                    leftdooroccupied = false
+                    bearleftdoor = false
+                    bear = 0
+                    bearinstage = true
+                }
+            })
+        }
+    }
 }
-let chicken = 0
-let bonny = 0
-let bear = 0
+let roomoccupied = 0
+let chickenmoving = false
+let bonnymoving = false
+let bearmoving = false
 let backrooms: Sprite = null
 let bathroomscam: Sprite = null
 let rightdoorcamera: Sprite = null
@@ -148,6 +270,25 @@ let rightlighton = false
 let rightlightbutton2: Sprite = null
 let leftlighton = false
 let leftlightbutton1: Sprite = null
+let bearleftdoor = false
+let leftdooroccupied = false
+let chickenrighthall = false
+let bonnylefthall = false
+let bearrighthall = false
+let bearlefthall = false
+let chickeninparts = false
+let chickeninbath = false
+let chickenintables = false
+let bonnyinparts = false
+let bonnyinbath = false
+let bonnyintables = false
+let bearinparts = false
+let bearinbath = false
+let bearintables = false
+let bearinstage = false
+let bonny = 0
+let chicken = 0
+let bear = 0
 let camerabuttons_on = false
 let fifthstage = false
 let fourthstage = false
@@ -198,15 +339,11 @@ timer.after(15000, function () {
             timer.after(120000, function () {
                 thirdstage = false
                 fourthstage = true
-            })
-            timer.after(120000, function () {
-                fourthstage = false
-                fifthstage = true
-            })
-            timer.after(180000, function () {
-                fifthstage = false
-                game.setGameOverMessage(true, "6AM")
-                game.gameOver(true)
+                timer.after(300000, function () {
+                    fifthstage = false
+                    game.setGameOverMessage(true, "6AM")
+                    game.gameOver(true)
+                })
             })
         })
     })
@@ -221,6 +358,27 @@ Keybinds.CustomKey.RIGHT,
 Keybinds.CustomKey.LEFT_CLICK,
 Keybinds.CustomKey.SPACE
 )
+bear = 0
+chicken = 0
+bonny = 0
+bearinstage = true
+let bonnyinstage = true
+let chickeninstage = true
+bearintables = false
+bearinbath = false
+bearinparts = false
+bonnyintables = false
+bonnyinbath = false
+bonnyinparts = false
+chickenintables = false
+chickeninbath = false
+chickeninparts = false
+bearlefthall = false
+bearrighthall = false
+bonnylefthall = false
+chickenrighthall = false
+leftdooroccupied = false
+bearleftdoor = false
 forever(function () {
     if (rightdooron && leftdooron) {
         officeimages[0] = assets.image`officebothdoors`
@@ -346,19 +504,16 @@ game.onUpdateInterval(randint(10000, 20000), function () {
     if (!(graceperiod)) {
         console.log("gameticks begin")
         if (firststage) {
-            gameturn(randint(1, 10), randint(1, 10), randint(1, 10))
+            gameturn(randint(1, 5), randint(1, 5), randint(1, 5), false)
         }
         if (secondstage) {
-            gameturn(randint(1, 6), randint(1, 6), randint(1, 6))
+            gameturn(randint(1, 4), randint(1, 4), randint(1, 4), false)
         }
         if (thirdstage) {
-            gameturn(randint(1, 4), randint(1, 4), randint(1, 4))
+            gameturn(randint(1, 3), randint(1, 3), randint(1, 3), false)
         }
         if (fourthstage) {
-            gameturn(randint(1, 3), randint(1, 3), randint(1, 3))
-        }
-        if (fifthstage) {
-            gameturn(randint(1, 2), randint(1, 2), randint(1, 2))
+            gameturn(randint(1, 2), randint(1, 2), randint(1, 2), false)
         }
     }
 })
