@@ -530,44 +530,38 @@ bonnylefthall = false
 chickenrighthall = false
 leftdooroccupied = false
 bearleftdoor = false
-game.onUpdateInterval(randint(5000, 15000), function () {
-    if (!(graceperiod)) {
-        console.log("---- gametick ----")
-        if (firststage) {
-            gameturn(randint(1, 5), randint(1, 5), randint(1, 5), true, randint(3, 5), randint(1, 15))
-        }
-        if (secondstage) {
-            gameturn(randint(1, 4), randint(1, 4), randint(1, 4), false, randint(4, 6), randint(1, 10))
-        }
-        if (thirdstage) {
-            gameturn(randint(1, 3), randint(1, 3), randint(1, 3), true, randint(5, 7), randint(1, 6))
-        }
-        if (fourthstage) {
-            gameturn(randint(1, 2), randint(1, 2), randint(1, 2), false, randint(6, 10), randint(1, 4))
-        }
+forever(function () {
+    if (power2.value <= 0 && !(powercutscene)) {
+        powercutscene = true
+        spawnbuttons(0)
+        scene.setBackgroundImage(assets.image`office1`)
+        timer.after(5000, function () {
+            scene.setBackgroundImage(assets.image`backrooms`)
+            timer.after(3000, function () {
+                game.setGameOverMessage(false, "RAN OUT OF POWER")
+                game.gameOver(false)
+            })
+        })
     }
 })
-forever(function () {
-    if (rightdooron && leftdooron) {
-        officeimages[0] = assets.image`officebothdoors`
-        officeimages[1] = assets.image`officebothdoorsleftlight`
-        officeimages[2] = assets.image`officebothdoorsrightlight`
-        officeimages[3] = assets.image`officebothdoorsbothlights`
-    } else if (rightdooron) {
-        officeimages[0] = assets.image`officerightdoor`
-        officeimages[1] = assets.image`officerightdoorleftlight`
-        officeimages[2] = assets.image`officerightdoorrightlight`
-        officeimages[3] = assets.image`officerightdooralllights`
-    } else if (leftdooron) {
-        officeimages[0] = assets.image`officeleftdoor`
-        officeimages[1] = assets.image`officeleftdoorleftlight`
-        officeimages[2] = assets.image`officeleftdoorrightlight`
-        officeimages[3] = assets.image`officeleftdoor1`
-    } else {
-        officeimages[0] = assets.image`office`
-        officeimages[1] = assets.image`officeleftlighton`
-        officeimages[2] = assets.image`officerightlight`
-        officeimages[3] = assets.image`officeonlylightson`
+game.onUpdateInterval(6000, function () {
+    if (!(graceperiod)) {
+        power2.value += -0.5
+        if (leftlighton) {
+            power2.value += -0.5
+        }
+        if (leftdooron) {
+            power2.value += -1
+        }
+        if (rightdooron) {
+            power2.value += -1
+        }
+        if (rightlighton) {
+            power2.value += -0.5
+        }
+        if (incameras) {
+            power2.value += -0.5
+        }
     }
 })
 forever(function () {
@@ -651,40 +645,46 @@ forever(function () {
         }
     }
 })
+game.onUpdateInterval(randint(5000, 15000), function () {
+    if (!(graceperiod)) {
+        console.log("---- gametick ----")
+        if (firststage) {
+            gameturn(randint(1, 5), randint(1, 5), randint(1, 5), true, randint(3, 5), randint(1, 15))
+        }
+        if (secondstage) {
+            gameturn(randint(1, 4), randint(1, 4), randint(1, 4), false, randint(4, 6), randint(1, 10))
+        }
+        if (thirdstage) {
+            gameturn(randint(1, 3), randint(1, 3), randint(1, 3), true, randint(5, 7), randint(1, 6))
+        }
+        if (fourthstage) {
+            gameturn(randint(1, 2), randint(1, 2), randint(1, 2), false, randint(6, 10), randint(1, 4))
+        }
+    }
+})
 forever(function () {
     power2.setLabel(convertToText(power2.value))
 })
 forever(function () {
-    if (power2.value <= 0 && !(powercutscene)) {
-        powercutscene = true
-        spawnbuttons(0)
-        scene.setBackgroundImage(assets.image`office1`)
-        timer.after(5000, function () {
-            scene.setBackgroundImage(assets.image`backrooms`)
-            timer.after(3000, function () {
-                game.setGameOverMessage(false, "RAN OUT OF POWER")
-                game.gameOver(false)
-            })
-        })
-    }
-})
-game.onUpdateInterval(6000, function () {
-    if (!(graceperiod)) {
-        power2.value += -0.5
-        if (leftlighton) {
-            power2.value += -0.5
-        }
-        if (leftdooron) {
-            power2.value += -1
-        }
-        if (rightdooron) {
-            power2.value += -1
-        }
-        if (rightlighton) {
-            power2.value += -0.5
-        }
-        if (incameras) {
-            power2.value += -0.5
-        }
+    if (rightdooron && leftdooron) {
+        officeimages[0] = assets.image`officebothdoors`
+        officeimages[1] = assets.image`officebothdoorsleftlight`
+        officeimages[2] = assets.image`officebothdoorsrightlight`
+        officeimages[3] = assets.image`officebothdoorsbothlights`
+    } else if (rightdooron) {
+        officeimages[0] = assets.image`officerightdoor`
+        officeimages[1] = assets.image`officerightdoorleftlight`
+        officeimages[2] = assets.image`officerightdoorrightlight`
+        officeimages[3] = assets.image`officerightdooralllights`
+    } else if (leftdooron) {
+        officeimages[0] = assets.image`officeleftdoor`
+        officeimages[1] = assets.image`officeleftdoorleftlight`
+        officeimages[2] = assets.image`officeleftdoorrightlight`
+        officeimages[3] = assets.image`officeleftdoor1`
+    } else {
+        officeimages[0] = assets.image`office`
+        officeimages[1] = assets.image`officeleftlighton`
+        officeimages[2] = assets.image`officerightlight`
+        officeimages[3] = assets.image`officeonlylightson`
     }
 })
