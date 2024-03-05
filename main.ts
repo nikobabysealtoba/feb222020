@@ -114,7 +114,7 @@ function spawnbuttons (_set: number) {
         )
     }
 }
-function gameturn (Chance1: number, Chance2: number, Chance3: number, retry: boolean) {
+function gameturn (Chance1: number, Chance2: number, Chance3: number, retry: boolean, num: number, Chance4: number) {
     if (Chance1 == 1) {
         console.log("bear moves")
         bearmoving = true
@@ -368,6 +368,32 @@ function gameturn (Chance1: number, Chance2: number, Chance3: number, retry: boo
     bearmoving = false
     bonnymoving = false
     chickenmoving = false
+    if (Chance4 == 1) {
+        for (let index = 0; index < num; index++) {
+            if (bear == 1) {
+                roomoccupied = randint(1, 3)
+                if (roomoccupied == 1) {
+                    console.log("bear in tables")
+                    bearintables = true
+                    bearinbath = false
+                    bearinparts = false
+                }
+                if (roomoccupied == 2) {
+                    console.log("bear in bath")
+                    bearintables = false
+                    bearinbath = true
+                    bearinparts = false
+                }
+                if (roomoccupied == 3) {
+                    console.log("bear in parts")
+                    bearintables = false
+                    bearinbath = false
+                    bearinparts = true
+                }
+            }
+            pause(2000)
+        }
+    }
 }
 let chickenrightdoor = false
 let bearrightdoor = false
@@ -457,7 +483,7 @@ timer.after(15000, function () {
     firststage = true
     timer.after(120000, function () {
         firststage = false
-        secondstage = false
+        secondstage = true
         timer.after(60000, function () {
             secondstage = false
             thirdstage = true
@@ -508,16 +534,16 @@ game.onUpdateInterval(randint(5000, 15000), function () {
     if (!(graceperiod)) {
         console.log("---- gametick ----")
         if (firststage) {
-            gameturn(randint(1, 5), randint(1, 5), randint(1, 5), true)
+            gameturn(randint(1, 5), randint(1, 5), randint(1, 5), true, randint(3, 5), randint(1, 15))
         }
         if (secondstage) {
-            gameturn(randint(1, 4), randint(1, 4), randint(1, 4), false)
+            gameturn(randint(1, 4), randint(1, 4), randint(1, 4), false, randint(4, 6), randint(1, 10))
         }
         if (thirdstage) {
-            gameturn(randint(1, 3), randint(1, 3), randint(1, 3), true)
+            gameturn(randint(1, 3), randint(1, 3), randint(1, 3), true, randint(5, 7), randint(1, 6))
         }
         if (fourthstage) {
-            gameturn(randint(1, 2), randint(1, 2), randint(1, 2), false)
+            gameturn(randint(1, 2), randint(1, 2), randint(1, 2), false, randint(6, 10), randint(1, 4))
         }
     }
 })
