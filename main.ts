@@ -395,6 +395,7 @@ function gameturn (Chance1: number, Chance2: number, Chance3: number, retry: boo
         }
     }
 }
+let powercutscene = false
 let chickenrightdoor = false
 let bearrightdoor = false
 let rightdooroccupied = false
@@ -454,7 +455,6 @@ assets.image`officeleftlighton`,
 assets.image`officerightlight`,
 assets.image`officeonlylightson`
 ]
-let powercutscene = false
 let power2 = statusbars.create(15, 6, StatusBarKind.Health)
 power2.setBarBorder(1, 12)
 power2.max = 100
@@ -530,6 +530,23 @@ bonnylefthall = false
 chickenrighthall = false
 leftdooroccupied = false
 bearleftdoor = false
+game.onUpdateInterval(randint(5000, 15000), function () {
+    if (!(graceperiod)) {
+        console.log("---- gametick ----")
+        if (firststage) {
+            gameturn(randint(1, 5), randint(1, 5), randint(1, 5), true, randint(3, 5), randint(1, 15))
+        }
+        if (secondstage) {
+            gameturn(randint(1, 4), randint(1, 4), randint(1, 4), false, randint(4, 6), randint(1, 10))
+        }
+        if (thirdstage) {
+            gameturn(randint(1, 3), randint(1, 3), randint(1, 3), true, randint(5, 7), randint(1, 6))
+        }
+        if (fourthstage) {
+            gameturn(randint(1, 2), randint(1, 2), randint(1, 2), false, randint(6, 10), randint(1, 4))
+        }
+    }
+})
 forever(function () {
     if (power2.value <= 0 && !(powercutscene)) {
         powercutscene = true
@@ -542,26 +559,6 @@ forever(function () {
                 game.gameOver(false)
             })
         })
-    }
-})
-game.onUpdateInterval(6000, function () {
-    if (!(graceperiod)) {
-        power2.value += -0.5
-        if (leftlighton) {
-            power2.value += -0.5
-        }
-        if (leftdooron) {
-            power2.value += -1
-        }
-        if (rightdooron) {
-            power2.value += -1
-        }
-        if (rightlighton) {
-            power2.value += -0.5
-        }
-        if (incameras) {
-            power2.value += -0.5
-        }
     }
 })
 forever(function () {
@@ -645,23 +642,6 @@ forever(function () {
         }
     }
 })
-game.onUpdateInterval(randint(5000, 15000), function () {
-    if (!(graceperiod)) {
-        console.log("---- gametick ----")
-        if (firststage) {
-            gameturn(randint(1, 5), randint(1, 5), randint(1, 5), true, randint(3, 5), randint(1, 15))
-        }
-        if (secondstage) {
-            gameturn(randint(1, 4), randint(1, 4), randint(1, 4), false, randint(4, 6), randint(1, 10))
-        }
-        if (thirdstage) {
-            gameturn(randint(1, 3), randint(1, 3), randint(1, 3), true, randint(5, 7), randint(1, 6))
-        }
-        if (fourthstage) {
-            gameturn(randint(1, 2), randint(1, 2), randint(1, 2), false, randint(6, 10), randint(1, 4))
-        }
-    }
-})
 forever(function () {
     power2.setLabel(convertToText(power2.value))
 })
@@ -686,5 +666,25 @@ forever(function () {
         officeimages[1] = assets.image`officeleftlighton`
         officeimages[2] = assets.image`officerightlight`
         officeimages[3] = assets.image`officeonlylightson`
+    }
+})
+game.onUpdateInterval(6000, function () {
+    if (!(graceperiod)) {
+        power2.value += -0.5
+        if (leftlighton) {
+            power2.value += -0.5
+        }
+        if (leftdooron) {
+            power2.value += -1
+        }
+        if (rightdooron) {
+            power2.value += -1
+        }
+        if (rightlighton) {
+            power2.value += -0.5
+        }
+        if (incameras) {
+            power2.value += -0.5
+        }
     }
 })
