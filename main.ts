@@ -118,16 +118,19 @@ function gameturn (Chance1: number, Chance2: number, Chance3: number, retry: boo
     if (Chance1 == 1) {
         console.log("bear moves")
         bearmoving = true
+        bearinstage = false
         bear += 1
     }
     if (Chance2 == 1) {
         console.log("bonny moves")
         bonnymoving = true
+        bonnyinstage = false
         bonny += 1
     }
     if (Chance3 == 1) {
         console.log("chicken moves")
         chickenmoving = true
+        chickeninstage = false
         chicken += 1
     }
     if (bearmoving) {
@@ -666,6 +669,104 @@ forever(function () {
         officeimages[1] = assets.image`officeleftlighton`
         officeimages[2] = assets.image`officerightlight`
         officeimages[3] = assets.image`officeonlylightson`
+    }
+})
+forever(function () {
+    if (!(bonnyinstage) && (!(bearinstage) && !(chickeninstage))) {
+        stagesprites = assets.image`stageempty`
+    }
+    if (!(bearinstage) && (!(bonnyinstage) && chickeninstage)) {
+        stagesprites = assets.image`stagejustchicken`
+    }
+    if (!(bearinstage) && (bonnyinstage && !(chickeninstage))) {
+        stagesprites = assets.image`stagebononly`
+    }
+    if (!(bearinstage) && (bonnyinstage && chickeninstage)) {
+        stagesprites = assets.image`stagecamfreddygon`
+    }
+    if (bearinstage && (!(bonnyinstage) && !(chickeninstage))) {
+        stagesprites = assets.image`stageonlyfred`
+    }
+    if (bearinstage && (!(bonnyinstage) && chickeninstage)) {
+        stagesprites = assets.image`stagebongone`
+    }
+    if (bearinstage && (bonnyinstage && !(chickeninstage))) {
+        stagesprites = assets.image`stagechickengone`
+    }
+    if (bearinstage && (bonnyinstage && chickeninstage)) {
+        stagesprites = assets.image`stagecamall`
+    }
+    if (!(bearintables) && (!(bonnyintables) && !(chickenintables))) {
+        tablessprites = assets.image`dining`
+    }
+    if (!(bearintables) && (!(bonnyintables) && chickenintables)) {
+        tablessprites = assets.image`diningchicken`
+    }
+    if (!(bearintables) && (bonnyintables && !(chickenintables))) {
+        tablessprites = assets.image`diningbon`
+    }
+    if (!(bearintables) && (bonnyintables && chickenintables)) {
+        tablessprites = assets.image`diningchickenandbon`
+    }
+    if (bearintables && (!(bonnyintables) && !(chickenintables))) {
+        tablessprites = assets.image`diningbear`
+    }
+    if (bearintables && (!(bonnyintables) && chickenintables)) {
+        tablessprites = assets.image`diningchickenandbear`
+    }
+    if (bearintables && (bonnyintables && !(chickenintables))) {
+        tablessprites = assets.image`diningbonandbear`
+    }
+    if (bearintables && (bonnyintables && chickenintables)) {
+        tablessprites = assets.image`diningall`
+    }
+    if (!(bearinbath) && (!(bonnyinbath) && !(chickeninbath))) {
+        bathroomsprites = assets.image`bathrooms`
+    }
+    if (!(bearinbath) && (!(bonnyinbath) && chickeninbath)) {
+        bathroomsprites = assets.image`bathchicken`
+    }
+    if (!(bearinbath) && (bonnyinbath && !(chickeninbath))) {
+        bathroomsprites = assets.image`bathbon`
+    }
+    if (!(bearinbath) && (bonnyinbath && chickeninbath)) {
+        bathroomsprites = assets.image`bathchickenandbon`
+    }
+    if (bearinbath && (!(bonnyinbath) && !(chickeninbath))) {
+        bathroomsprites = assets.image`bathbear`
+    }
+    if (bearinbath && (!(bonnyinbath) && chickeninbath)) {
+        bathroomsprites = assets.image`bathchickenandbear`
+    }
+    if (bearinbath && (bonnyinbath && !(chickeninbath))) {
+        bathroomsprites = assets.image`bathbearandbon`
+    }
+    if (bearinbath && (bonnyinbath && chickeninbath)) {
+        bathroomsprites = assets.image`bathchickenandbearandbon`
+    }
+    if (!(bearinparts) && (!(bonnyinparts) && !(chickeninparts))) {
+        backroomssprites = assets.image`backrooms`
+    }
+    if (!(bearinparts) && (!(bonnyinparts) && chickeninparts)) {
+        backroomssprites = assets.image`partschicken`
+    }
+    if (!(bearinparts) && (bonnyinparts && !(chickeninparts))) {
+        backroomssprites = assets.image`bonparts`
+    }
+    if (!(bearinparts) && (bonnyinparts && chickeninparts)) {
+        backroomssprites = assets.image`bonpartsandchicken`
+    }
+    if (bearinparts && (!(bonnyinparts) && !(chickeninparts))) {
+        backroomssprites = assets.image`partsbear`
+    }
+    if (bearinparts && (!(bonnyinparts) && chickeninparts)) {
+        backroomssprites = assets.image`partsbearandchicken`
+    }
+    if (bearinparts && (bonnyinparts && !(chickeninparts))) {
+        backroomssprites = assets.image`bonpartsandbear`
+    }
+    if (bearinparts && (bonnyinparts && chickeninparts)) {
+        backroomssprites = assets.image`bonpartsandbearandchick`
     }
 })
 game.onUpdateInterval(6000, function () {
