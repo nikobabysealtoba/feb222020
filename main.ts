@@ -399,10 +399,6 @@ function gameturn (Chance1: number, Chance2: number, Chance3: number, retry: boo
     }
 }
 let powercutscene = false
-let chickenrightdoor = false
-let bearrightdoor = false
-let rightdooroccupied = false
-let bonnyleftdoor = false
 let roomoccupied = 0
 let chickenmoving = false
 let bonnymoving = false
@@ -424,7 +420,11 @@ let rightlighton = false
 let rightlightbutton2: Sprite = null
 let leftlighton = false
 let leftlightbutton1: Sprite = null
+let chickenrightdoor = false
+let bearrightdoor = false
+let bonnyleftdoor = false
 let bearleftdoor = false
+let rightdooroccupied = false
 let leftdooroccupied = false
 let chickenrighthall = false
 let bonnylefthall = false
@@ -532,40 +532,25 @@ bearrighthall = false
 bonnylefthall = false
 chickenrighthall = false
 leftdooroccupied = false
+rightdooroccupied = false
 bearleftdoor = false
-forever(function () {
-    power2.setLabel(convertToText(power2.value))
-})
-game.onUpdateInterval(6000, function () {
+bonnyleftdoor = false
+bearrightdoor = false
+chickenrightdoor = false
+game.onUpdateInterval(randint(5000, 15000), function () {
     if (!(graceperiod)) {
-        power2.value += -0.5
-        if (leftlighton) {
-            power2.value += -0.5
+        console.log("---- gametick ----")
+        if (firststage) {
+            gameturn(randint(1, 5), randint(1, 5), randint(1, 5), true, randint(3, 5), randint(1, 15))
         }
-        if (leftdooron) {
-            power2.value += -1
+        if (secondstage) {
+            gameturn(randint(1, 4), randint(1, 4), randint(1, 4), false, randint(4, 6), randint(1, 10))
         }
-        if (rightdooron) {
-            power2.value += -1
+        if (thirdstage) {
+            gameturn(randint(1, 3), randint(1, 3), randint(1, 3), true, randint(5, 7), randint(1, 6))
         }
-        if (rightlighton) {
-            power2.value += -0.5
-        }
-        if (incameras) {
-            power2.value += -0.5
-        }
-    }
-})
-forever(function () {
-    if (!(powercutscene) && !(incameras)) {
-        if (leftlighton && !(rightlighton)) {
-            scene.setBackgroundImage(officeimages[1])
-        } else if (rightlighton && !(leftlighton)) {
-            scene.setBackgroundImage(officeimages[2])
-        } else if (rightlighton && leftlighton) {
-            scene.setBackgroundImage(officeimages[3])
-        } else {
-            scene.setBackgroundImage(officeimages[0])
+        if (fourthstage) {
+            gameturn(randint(1, 2), randint(1, 2), randint(1, 2), false, randint(6, 10), randint(1, 4))
         }
     }
 })
@@ -634,23 +619,6 @@ forever(function () {
                 scene.setBackgroundImage(backroomssprites)
                 spawnbuttons(2)
             })
-        }
-    }
-})
-game.onUpdateInterval(randint(5000, 15000), function () {
-    if (!(graceperiod)) {
-        console.log("---- gametick ----")
-        if (firststage) {
-            gameturn(randint(1, 5), randint(1, 5), randint(1, 5), true, randint(3, 5), randint(1, 15))
-        }
-        if (secondstage) {
-            gameturn(randint(1, 4), randint(1, 4), randint(1, 4), false, randint(4, 6), randint(1, 10))
-        }
-        if (thirdstage) {
-            gameturn(randint(1, 3), randint(1, 3), randint(1, 3), true, randint(5, 7), randint(1, 6))
-        }
-        if (fourthstage) {
-            gameturn(randint(1, 2), randint(1, 2), randint(1, 2), false, randint(6, 10), randint(1, 4))
         }
     }
 })
@@ -818,22 +786,52 @@ forever(function () {
     if (bonnyleftdoor) {
         leftcornersprites = assets.image`leftdoorbon`
     }
-    if (!(bearleftdoor)) {
-        leftcornersprites = assets.image`westdoor`
-    }
-    if (!(bonnyleftdoor)) {
+    if (!(bearleftdoor) && !(bonnyleftdoor)) {
         leftcornersprites = assets.image`westdoor`
     }
     if (bearrightdoor) {
-        leftcornersprites = assets.image`bearrightdoor`
+        rightcornersprites = assets.image`bearrightdoor`
     }
     if (chickenrightdoor) {
-        leftcornersprites = assets.image`chickenrightdoor`
+        rightcornersprites = assets.image`chickenrightdoor`
     }
-    if (!(bearrightdoor)) {
-        leftcornersprites = assets.image`rightcorner`
+    if (!(bearrightdoor) && !(chickenrightdoor)) {
+        rightcornersprites = assets.image`rightcorner`
     }
-    if (!(chickenrightdoor)) {
-        leftcornersprites = assets.image`rightcorner`
+})
+forever(function () {
+    power2.setLabel(convertToText(power2.value))
+})
+forever(function () {
+    if (!(powercutscene) && !(incameras)) {
+        if (leftlighton && !(rightlighton)) {
+            scene.setBackgroundImage(officeimages[1])
+        } else if (rightlighton && !(leftlighton)) {
+            scene.setBackgroundImage(officeimages[2])
+        } else if (rightlighton && leftlighton) {
+            scene.setBackgroundImage(officeimages[3])
+        } else {
+            scene.setBackgroundImage(officeimages[0])
+        }
+    }
+})
+game.onUpdateInterval(6000, function () {
+    if (!(graceperiod)) {
+        power2.value += -0.5
+        if (leftlighton) {
+            power2.value += -0.5
+        }
+        if (leftdooron) {
+            power2.value += -1
+        }
+        if (rightdooron) {
+            power2.value += -1
+        }
+        if (rightlighton) {
+            power2.value += -0.5
+        }
+        if (incameras) {
+            power2.value += -0.5
+        }
     }
 })
